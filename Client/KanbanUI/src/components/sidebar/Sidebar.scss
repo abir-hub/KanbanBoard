@@ -1,0 +1,20 @@
+@use "../../colors.scss" as *;
+
+li :hover {
+    background-color: $purple3;
+}
+
+.sidebar {
+    background-color: $grey;
+}
+.compress-button{
+    fill: $purple1;
+}
+.compress {
+    
+    :hover {
+        background-color: $purple1;
+        fill: white;
+        border-radius: 2rem;
+    }
+}

@@ -1,0 +1,4 @@
+npm init -y
+npm install express jsonwebtoken bcryptjs dotenv
+mkdir src
+echo .>index.js echo.>auth.js echo.>middleware.js

@@ -1,0 +1,20 @@
+@use "../../colors.scss" as *;
+
+.create-button{
+    border-color: $purple2;
+    display: flex;
+    align-items: center;
+}
+
+.to-do-card {
+    border-color: $red;
+}
+.progress-card {
+    border-color: $yellow;
+}
+.testing-card{
+    border-color: $darkgreen;
+}
+.finished-card{
+    border-color: $lightblue;
+}
