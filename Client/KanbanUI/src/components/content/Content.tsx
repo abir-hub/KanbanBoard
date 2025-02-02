@@ -13,15 +13,21 @@ import {
   toDoData,
 } from "../../data/constant";
 import { DataCardModel } from "../../interfaces/DataCardModel";
+import initialData from "../../data/initial-data";
+import { DragDropContext } from "@hello-pangea/dnd";
 
 export const Content = () => {
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
-  const [toDoTasks, setToDoTasks] = useState<DataCardModel[]>(toDoData);
-  const [onProgressTasks, setOnProgressTasks] =
-    useState<DataCardModel[]>(OnProgressData);
-  const [testingTasks, setTestingTasks] =
-    useState<DataCardModel[]>(TestingData);
-  const [doneTasks, setDoneTasks] = useState<DataCardModel[]>(DoneData);
+  const [state, handleState] = useState<any>(initialData);
+  const handleDragEnd = (result: any) => {
+    return;
+  };
+  // const [toDoTasks, setToDoTasks] = useState<DataCardModel[]>(toDoData);
+  // const [onProgressTasks, setOnProgressTasks] =
+  //   useState<DataCardModel[]>(OnProgressData);
+  // const [testingTasks, setTestingTasks] =
+  //   useState<DataCardModel[]>(TestingData);
+  // const [doneTasks, setDoneTasks] = useState<DataCardModel[]>(DoneData);
 
   const handleModalOpen = () => {
     setIsAddEditModalOpen(true);
@@ -44,23 +50,43 @@ export const Content = () => {
           <p className="text-lg">Create</p>
         </button>
       </section>
-      <div className="flex flex-row justify-center gap-2.5 mx-2">
+      <DragDropContext onDragEnd={handleDragEnd}>
+        {/* //onDragEnd is required props for DragDropContext */}
+        <div className="flex flex-row justify-center gap-2.5 mx-2">
+          {state.columnOrder.map((columnId: string) => {
+            const column: any = state.columns[columnId];
+            const tasks: any = column.taskIds.map(
+              (taskId: string) => state.tasks[taskId]
+            );
+            // console.log(tasks);
+            return (
+              <TaskColumn
+                key={column.id}
+                column={column}
+                data={tasks}
+                title={column.title}
+              />
+            );
+          })}
+        </div>
+      </DragDropContext>
+      {/* <div className="flex flex-row justify-center gap-2.5 mx-2">
         {/* To-do  */}
 
-        <TaskColumn toDoData={toDoTasks} title={TaskTitle.TO_DO} />
+      {/* <TaskColumn toDoData={toDoTasks} title={TaskTitle.TO_DO} /> */}
 
-        {/* On Progress  */}
+      {/* On Progress  */}
 
-        <TaskColumn toDoData={onProgressTasks} title={TaskTitle.ON_PROGRESS} />
+      {/* <TaskColumn toDoData={onProgressTasks} title={TaskTitle.ON_PROGRESS} /> */}
 
-        {/* Testing  */}
+      {/* Testing  */}
 
-        <TaskColumn toDoData={testingTasks} title={TaskTitle.TESTING} />
+      {/* <TaskColumn toDoData={testingTasks} title={TaskTitle.TESTING} /> */}
 
-        {/* Finished  */}
+      {/* Finished  */}
 
-        <TaskColumn toDoData={doneTasks} title={TaskTitle.DONE} />
-      </div>
+      {/* <TaskColumn toDoData={doneTasks} title={TaskTitle.DONE} /> */}
+      {/* </div> */}
     </>
   );
 };
