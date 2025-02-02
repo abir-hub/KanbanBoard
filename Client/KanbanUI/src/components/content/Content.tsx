@@ -12,8 +12,6 @@ import {
   TestingData,
   toDoData,
 } from "../../data/constant";
-import { closestCorners, DndContext } from "@dnd-kit/core";
-import { arrayMove } from "@dnd-kit/sortable";
 import { DataCardModel } from "../../interfaces/DataCardModel";
 
 export const Content = () => {
@@ -30,21 +28,6 @@ export const Content = () => {
   };
   const handleModalClose = () => {
     setIsAddEditModalOpen(false);
-  };
-  const handleDragEnd = (
-    event: any,
-    tasks: any[],
-    setTasks: React.Dispatch<React.SetStateAction<any[]>>
-  ) => {
-    const { active, over } = event;
-    if (active.id === over.id) return;
-
-    setTasks((tasks) => {
-      const activeIndex = tasks.findIndex((task) => task.id === active.id);
-      const overIndex = tasks.findIndex((task) => task.id === over.id);
-
-      return arrayMove(tasks, activeIndex, overIndex);
-    });
   };
   return (
     <>
@@ -63,43 +46,20 @@ export const Content = () => {
       </section>
       <div className="flex flex-row justify-center gap-2.5 mx-2">
         {/* To-do  */}
-        <DndContext
-          onDragEnd={(event) => handleDragEnd(event, toDoTasks, setToDoTasks)}
-          collisionDetection={closestCorners}
-        >
-          <TaskColumn toDoData={toDoTasks} title={TaskTitle.TO_DO} />
-        </DndContext>
+
+        <TaskColumn toDoData={toDoTasks} title={TaskTitle.TO_DO} />
+
         {/* On Progress  */}
-        <DndContext
-          onDragEnd={(event) =>
-            handleDragEnd(event, onProgressTasks, setOnProgressTasks)
-          }
-          collisionDetection={closestCorners}
-        >
-          <TaskColumn
-            toDoData={onProgressTasks}
-            title={TaskTitle.ON_PROGRESS}
-          />
-        </DndContext>
+
+        <TaskColumn toDoData={onProgressTasks} title={TaskTitle.ON_PROGRESS} />
 
         {/* Testing  */}
-        <DndContext
-          onDragEnd={(event) =>
-            handleDragEnd(event, testingTasks, setTestingTasks)
-          }
-          collisionDetection={closestCorners}
-        >
-          <TaskColumn toDoData={testingTasks} title={TaskTitle.TESTING} />
-        </DndContext>
+
+        <TaskColumn toDoData={testingTasks} title={TaskTitle.TESTING} />
 
         {/* Finished  */}
-        <DndContext
-          onDragEnd={(event) => handleDragEnd(event, doneTasks, setDoneTasks)}
-          collisionDetection={closestCorners}
-        >
-          <TaskColumn toDoData={doneTasks}
-           title={TaskTitle.DONE} />
-        </DndContext>
+
+        <TaskColumn toDoData={doneTasks} title={TaskTitle.DONE} />
       </div>
     </>
   );

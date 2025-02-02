@@ -1,29 +1,14 @@
 import { MdAssignment } from "react-icons/md";
 import { DataCardModel } from "../../interfaces/DataCardModel";
 import "./TaskCard.scss";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 interface TaskCardProps {
   card: DataCardModel;
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ card }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: card.id });
-  const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
-  };
   return (
-    <div
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      style={style}
-      key={card.id}
-      className="mb-1 task-card"
-    >
+    <div key={card.id} className="mb-1 task-card">
       <div className="max-w-xs rounded overflow-hidden shadow-lg to-do-card border-2">
         <div className="px-6 py-2">
           <p className="text-gray-700 text-base text-wrap">{card.text}</p>
