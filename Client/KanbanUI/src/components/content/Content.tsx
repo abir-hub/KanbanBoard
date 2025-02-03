@@ -5,14 +5,6 @@ import "./Content.scss";
 import { LuPlusCircle } from "react-icons/lu";
 import { AddEditCardModal } from "../../scenes/addEditCard/AddEditCardModal";
 import { TaskColumn } from "../taskColumn/TaskColumn";
-import {
-  DoneData,
-  OnProgressData,
-  TaskTitle,
-  TestingData,
-  toDoData,
-} from "../../data/constant";
-import { DataCardModel } from "../../interfaces/DataCardModel";
 import initialData from "../../data/initial-data";
 import { DragDropContext } from "@hello-pangea/dnd";
 
@@ -20,7 +12,77 @@ export const Content = () => {
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
   const [state, handleState] = useState<any>(initialData);
   const handleDragEnd = (result: any) => {
-    return;
+    const { destination, source, draggableId } = result;
+
+    //If there is no destination
+    if (!destination) {
+      return;
+    }
+
+    //If the destination and source are the same
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    //Find the column
+    const startColumn: any = state.columns[source.droppableId];
+    const finishColumn: any = state.columns[destination.droppableId];
+
+    if (startColumn === finishColumn) {
+      const newTaskIds: any = Array.from(startColumn.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...startColumn,
+        taskIds: newTaskIds,
+      };
+
+      const newState = {
+        ...state,
+        columns: {
+          ...state.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+
+      //Set the state
+      handleState(newState);
+      //After the handleState, I will call the server to inform the server that the column has been reordered
+      return;
+    }
+
+    //Moving from one list to another
+    const startTaskIds: any = Array.from(startColumn.taskIds);
+    startTaskIds.splice(source.index, 1);
+
+    const newStartColumn = {
+      ...startColumn,
+      taskIds: startTaskIds,
+    };
+
+    const finishTaskIds: any = Array.from(finishColumn.taskIds);
+    finishTaskIds.splice(destination.index, 0, draggableId);
+
+    const newFinishColumn = {
+      ...finishColumn,
+      taskIds: finishTaskIds,
+    };
+
+    //Set the state
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        [newStartColumn.id]: newStartColumn,
+        [newFinishColumn.id]: newFinishColumn,
+      },
+    };
+
+    handleState(newState);
   };
   // const [toDoTasks, setToDoTasks] = useState<DataCardModel[]>(toDoData);
   // const [onProgressTasks, setOnProgressTasks] =
@@ -63,7 +125,7 @@ export const Content = () => {
               <TaskColumn
                 key={column.id}
                 column={column}
-                data={tasks}
+                tasks={tasks}
                 title={column.title}
               />
             );
