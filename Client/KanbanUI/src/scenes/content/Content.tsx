@@ -3,12 +3,12 @@ import { useState } from "react";
 import "./Content.scss";
 
 import { LuPlusCircle } from "react-icons/lu";
-import { AddEditCardModal } from "../../scenes/addEditCard/AddEditCardModal";
-import { TaskColumn } from "../taskColumn/TaskColumn";
+import { AddEditCardModal } from "../addEditCard/AddEditCardModal";
+import { TaskColumn } from "../../components/taskColumn/TaskColumn";
 import initialData from "../../data/initial-data";
 import { DragDropContext } from "@hello-pangea/dnd";
 
-export const Content = () => {
+const Content = () => {
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
   const [state, handleState] = useState<any>(initialData);
   const handleDragEnd = (result: any) => {
@@ -112,43 +112,30 @@ export const Content = () => {
           <p className="text-lg">Create</p>
         </button>
       </section>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        {/* //onDragEnd is required props for DragDropContext */}
-        <div className="flex flex-row justify-center gap-2.5 mx-2">
-          {state.columnOrder.map((columnId: string) => {
-            const column: any = state.columns[columnId];
-            const tasks: any = column.taskIds.map(
-              (taskId: string) => state.tasks[taskId]
-            );
-            // console.log(tasks);
-            return (
-              <TaskColumn
-                key={column.id}
-                column={column}
-                tasks={tasks}
-                title={column.title}
-              />
-            );
-          })}
-        </div>
-      </DragDropContext>
-      {/* <div className="flex flex-row justify-center gap-2.5 mx-2">
-        {/* To-do  */}
-
-      {/* <TaskColumn toDoData={toDoTasks} title={TaskTitle.TO_DO} /> */}
-
-      {/* On Progress  */}
-
-      {/* <TaskColumn toDoData={onProgressTasks} title={TaskTitle.ON_PROGRESS} /> */}
-
-      {/* Testing  */}
-
-      {/* <TaskColumn toDoData={testingTasks} title={TaskTitle.TESTING} /> */}
-
-      {/* Finished  */}
-
-      {/* <TaskColumn toDoData={doneTasks} title={TaskTitle.DONE} /> */}
-      {/* </div> */}
+      <section className="content-scroll-container">
+        <DragDropContext onDragEnd={handleDragEnd}>
+          {/* //onDragEnd is required props for DragDropContext */}
+          <div className="flex flex-row justify-center gap-2.5 mx-2">
+            {state.columnOrder.map((columnId: string) => {
+              const column: any = state.columns[columnId];
+              const tasks: any = column.taskIds.map(
+                (taskId: string) => state.tasks[taskId]
+              );
+              // console.log(tasks);
+              return (
+                <TaskColumn
+                  key={column.id}
+                  column={column}
+                  tasks={tasks}
+                  title={column.title}
+                />
+              );
+            })}
+          </div>
+        </DragDropContext>
+      </section>
     </>
   );
 };
+
+export default Content;

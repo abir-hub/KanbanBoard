@@ -18,3 +18,7 @@
 .finished-card{
     border-color: $lightblue;
 }
+.content-scroll-container {
+    height: 70vh; // Adjust the height as needed
+    overflow-y: auto;
+}

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "./Sidebar.scss";
 import { IoHomeOutline } from "react-icons/io5";
 import { RiTaskLine } from "react-icons/ri";
@@ -48,37 +50,37 @@ export const Sidebar = () => {
         <ul className="space-y-4">
           {/* Menu items */}
           <li>
-            <a
-              href="#home"
+            <Link
+              to="/"
               className={`px-4 py-2 rounded block font-semibold flex flex-row ${roundedButton}`}
             >
               <div className="text-2xl">
                 <IoHomeOutline />
               </div>
               {!compress ? "Home" : null}
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#tasks"
+            <Link
+              to="tasks"
               className={`px-4 py-2 rounded block font-semibold flex flex-row ${roundedButton}`}
             >
               <div className="text-2xl">
                 <RiTaskLine />
               </div>
               {!compress ? "Tasks" : null}
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#members"
+            <Link
+              to="members"
               className={`px-4 py-2 rounded block font-semibold flex flex-row ${roundedButton}`}
             >
               <div className="text-2xl">
                 <MdPeopleAlt />
               </div>
               {!compress ? "Members" : null}
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
