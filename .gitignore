@@ -1,1 +1,6 @@
 Server/.vs/
+.dll
+.exe
+.pdb
+.cache
+.Up2Date
