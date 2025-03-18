@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./Content.scss";
 
@@ -7,6 +7,7 @@ import { AddEditCardModal } from "../addEditCard/AddEditCardModal";
 import { TaskColumn } from "../../components/taskColumn/TaskColumn";
 import initialData from "../../data/initial-data";
 import { DragDropContext } from "@hello-pangea/dnd";
+import { contentFetchData } from "../../services/content.service";
 
 const Content = () => {
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
@@ -97,6 +98,11 @@ const Content = () => {
   const handleModalClose = () => {
     setIsAddEditModalOpen(false);
   };
+  useEffect(() => {
+    const initialData = contentFetchData();
+    handleState(initialData);
+  }, []);
+
   return (
     <>
       {isAddEditModalOpen && (

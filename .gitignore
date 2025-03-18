@@ -6,4 +6,6 @@ Server/.vs/
 .Up2Date
 Server.AssemblyInfo.cs
 Server.AssemblyInfoInputs.cache
-bin/Debug/net8.0
+Server/Server/bin/
+Server/Server/obj/
+.vs
